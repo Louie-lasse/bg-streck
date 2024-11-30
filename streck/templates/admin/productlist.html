@@ -1,0 +1,14 @@
+{% extends "admin/layout.html" %}
+{% block title %}Produkter{% endblock %}
+{% block body %}
+	{{ super() }}
+	<ul class="minimenu">
+		<li><a href="/admin/product/add">Lägg till</a></li>
+		<li><a href="/admin">Bakåt</a></li>
+	</ul>
+	<ul class="admin-list">
+	{% for product in products %}
+		<li><a href="/admin/product/{{ product.barcode() }}">{{ product.name() }}</a></li>
+	{% endfor %}
+	</ul>
+{% endblock %}

@@ -1,0 +1,199 @@
+/* Basic styling */
+body {
+	line-height: 1.2em;	
+	font-family: Georgia, "Times New Roman", serif;
+	list-style:none;
+}
+h1, h2, h3, input, button {
+	line-height: 1.2em;	
+	font-family: Verdana, Geneva, sans-serif;
+	list-style:none;
+}
+/* Top colors */
+.top {
+	background: #FC4103;	
+	color: #475345;
+}
+.top a {
+	color: #91815F;
+}
+.top a:hover {
+	color: #D2392B;
+}
+h1 {
+	color: #101241;
+}
+/* Bottom colors */
+body, .bottom {
+	background: #101241;
+	color: #E5E0C3;
+}
+.bottom a {
+	color: inherit;
+}
+.bottom a:hover {
+	color: #F7BC76;
+}
+/* Layouting */
+body {
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+}
+.top {
+	margin: 0 auto;
+	text-align: center;
+	padding: 1.5em;
+	padding-bottom: 3em;
+}
+.bottom {
+	padding: 1.5em;
+}
+.bottom>* {
+	margin: 1.2em auto;
+	width: 20em;
+}
+/* Font sizes */
+.bottom h2 {
+	font-size: 1.5em;
+	margin: 0 auto;
+	text-align: center;
+	font-weight: normal;
+}
+h1, #barcode {
+	font-size: 3em;
+	text-align: center;
+}
+/* User/product blocks */
+.user, .product {
+	width: 40em !important;
+}
+.user.disabled>* {
+	opacity: .5;
+}
+.user img, .product img {
+	height: 12em;
+	width: 12em;
+	float: left;
+}
+.transaction-list {
+	position: relative;
+	left: 2em;
+	font-size: .9em;
+	list-style: none;
+	height: 13.3em;
+}
+.transaction-list time {
+	font-family: monospace;
+	font-size: .75em;
+	line-height: 1.6;
+	opacity: .5;
+}
+.transaction-list .price {
+	position: relative;
+	left: -2em;
+	float: right;
+	display: inline-block;
+	background: #101241;
+}
+.transaction-list .undone {
+	opacity: .5;
+}
+.transaction-list .bought {
+	font-weight: bold;
+}
+.user dl, .product dl {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 1.5em;
+	line-height: 1.2;
+}
+.product dl {
+	margin-left: 7.2em;
+}
+.user dl dt, .product dl dt {
+	display: run-in;
+	font-weight: bold;
+	padding-right: 1ex;
+}
+.user dl dd, .product dl dd {
+	display: block;
+	width: auto;
+	text-indent: 0;
+	padding: 0;
+}
+.user dd+*, .user dd+dt+* {
+	opacity: .5;
+}
+/* menu buttons */
+.minimenu {
+	list-style: none;
+	text-align: center;
+	padding: 0;
+}
+.minimenu li {
+	display: inline-block;
+	margin: 0 1ex;
+	border-radius: .5ex;
+	background: #FC4103;
+	font-family: Verdana, Geneva, sans-serif;
+}
+.minimenu li a {
+	display: inline-block;
+	padding: .5ex;
+	border-radius: .5ex;
+	text-decoration: none;
+}
+.minimenu li:hover, .minimenu li a:hover {
+	background: #F7BC76;
+	color: #475345 !important;
+}
+/* Administration forms */
+.userform label, .productform label {
+	width: 100%;
+	display: inline-block;
+	overflow: auto;
+	text-align: right;
+}
+.userform label input, .productform label input, .productform label select {
+	width: 65%;
+	margin-left: 1ex;
+}
+form button {
+	float: right;
+	clear: right;
+	width: 15em;
+	margin: .5em 0;
+}
+label#price input {
+	width: 57.5%;
+}
+label#price span {
+	width: 7.5%;
+	display: inline-block;
+}
+/* blech */
+.stats {
+	font-size: 0.9em;
+	text-align: justify;
+}
+#graph {
+	background: white !important;
+}
+th {
+	border-top: 2px solid;
+	border-bottom: 1px solid;
+}
+tr:last-child td {
+	border-bottom: 2px solid;
+}
+tbody td {
+	padding-left: 1ex;
+	padding-right: 1ex;
+}
+tbody td:not(:first-child) {
+	text-align: right;
+}
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}

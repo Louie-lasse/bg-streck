@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+	<script src="{{ url_for('static', filename='dygraph-combined.js') }}"></script>
+{% endblock %}
+{% block action %}/user{% endblock %}
+{% block title %}Statistik{% endblock %}
+{% block body %}
+	{{ super() }}
+	{% set topprod = stats.top_product() %}
+	{% set topdebt = stats.top_user_debt() %}
+	{% set toptotal = stats.top_user_total() %}
+	<p class="stats">Den mest populära produkten är <strong>{{ topprod[0] }}</strong>, som har streckats <em>{{ topprod[1] }}</em> gånger. Högst streckskuld just nu har <strong>{{ topdebt.name() }}</strong> med <em>{{ topdebt.debt() }}kr</em>. <strong>{{ toptotal[0] }}</strong> har streckat mest genom tiderna, totalt <em>{{ toptotal[1] }}kr</em>!</p>
+	<p>De senaste fyra veckorna har det streckats för <em>{{ stats.total_four_weeks() }}</em>:</p>
+	<div id="graph"></div>
+	<script>
+		var to = new Date();
+		var from = new Date(to.getTime() - (28*60*60*24*1000));
+		g2 = new Dygraph(
+			document.getElementById("graph"),
+			"/stats/timeseries.csv", // path to CSV file
+			{dateWindow:[from, to], legend:'always', colors:['green','blue','lightgreen','lightblue','purple']}
+		);
+	</script>
+	<h2>Topplistor</h2>
+	<!-- topplista användare just nu -->
+	<table>
+		<caption>Topp 3 användare just nu</caption>
+		<thead>
+			<tr>
+				<th>Produkt</th>
+				<!--th>Antal</th-->
+				<th>Belopp</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for user in stats.toplist_user_now() %}
+			<tr>
+				<td>{{ user.name() }}</td>
+				<!--td>{{ user['count'] }}</td-->
+				<td>{{ user.debt() }}kr</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	<!-- topplista användare all time -->
+	<table>
+		<caption>Topp 3 användare totalt</caption>
+		<thead>
+			<tr>
+				<th>Produkt</th>
+				<!--th>Antal</th-->
+				<th>Belopp</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for user in stats.toplist_user_alltime() %}
+			<tr>
+				<td>{{ user['name'] }}</td>
+				<!--td>{{ user['count'] }}</td-->
+				<td>{{ user['total'] }}kr</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% for cat in categories %}
+		<!-- topplista produkter -->
+		<table>
+			<caption>Topp 3 produkter ({{ cat['name'] }})</caption>
+			<thead>
+				<tr>
+					<th>Produkt</th>
+					<th>Antal</th>
+					<!--th>Belopp</th-->
+				</tr>
+			</thead>
+			<tbody>
+			{% for product in stats.toplist_product(cat['id']) %}
+				<tr>
+					<td>{{ product['name'] }}</td>
+					<td>{{ product['count'] }}</td>
+					<!--td>{{ product['total'] }}kr</td-->
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+	{% for cat in categories %}
+		<!-- topplista användare per kategori -->
+		<table>
+			<caption>Topp 3 användare (totalt {{ cat['name'] }})</caption>
+			<thead>
+				<tr>
+					<th>Produkt</th>
+					<!--th>Antal</th-->
+					<th>Belopp</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for user in stats.toplist_user(cat['id']) %}
+				<tr>
+					<td>{{ user['name'] }}</td>
+					<!--td>{{ user['count'] }}</td-->
+					<td>{{ user['total'] }}kr</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+{% endblock %}

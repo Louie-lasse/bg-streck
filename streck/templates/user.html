@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block head %}
+	{% if bought != False or paid != False or undone != False %}
+	<meta http-equiv="refresh" content="3; URL=/user/{{ user.barcode() }}">
+	{% else %}
+	<meta http-equiv="refresh" content="15; URL=/">
+	{% endif %}
+	{{ super() }}
+{% endblock %}
+{% block action %}{{ '/user/%s/buy' % user.barcode() }}{% endblock %}
+{% block title %}{{ user.name() }}{% endblock %}
+{% block body %}
+	{{ super() }}
+	<div class="user{% if disabled != False or user.disabled() %} disabled{% endif %}">
+		{% if disabled != False or user.disabled() %}
+		<img src="{{ url_for('static', filename='img/No.png') }}" alt="{{ user.name() }}">
+		{% elif bought != False %}
+		<img src="{{ url_for('static', filename='products/%s' % bought.picture()) }}" alt="{{ bought.name() }}">
+		{% elif paid != False or undone != False %}
+		<img src="{{ url_for('static', filename='img/Ok.png') }}" alt="{{ user.name() }}">
+		{% else %}
+		<img src="/images/users/{{ user.picture() }}" alt="{{ user.name() }}">
+		{% endif %}
+		<ul class="transaction-list">
+		{% set n = user.transactions().__len__() %}
+		{% if n > 11 %}{% set n = 11 %}{% endif %}
+		{% if undone == False and n > 2 %}
+			{% set transaction = user.transactions()[-n+1] %}
+			<li><time>{{ transaction['added'] }}</time> {{ (transaction['name'] or transaction['notes']) }} <span class="price">({{ transaction['price'] }}kr)</span></li>
+		{% endif %}
+		{% if n > 1 %}
+		{% for transaction in user.transactions()[-n+2:-1] %}
+			<li><time>{{ transaction['added'] }}</time> {{ (transaction['name'] or transaction['notes']) }} <span class="price">({{ transaction['price'] }}kr)</span></li>
+		{% endfor %}
+		{% endif %}
+		{% if n > 0 %}
+		{% set transaction = user.transactions()[-1] %}
+		<li{% if bought != False %} class="bought"{% endif %}><time>{{ transaction['added'] }}</time> {{ (transaction['name'] or transaction['notes']) }} <span class="price">({{ transaction['price'] }}kr)</span></li>
+		{% endif %}
+		{% if undone != False %}
+			<li id="undo"><hr></li>
+		{% endif %}
+		</ul>
+		<dl>
+			<dt>Total skuld:</dt>
+			<dd>{{ user.debt() }}kr</dd>
+			{% for cat in user.debt_per_category() %}
+			<dt>Varav {{ cat['name'] }}:</dt>
+			<dd>{{ cat['debt'] }}kr</dd>
+			{% endfor %}
+		</dl>
+	</div>
+{% endblock %}

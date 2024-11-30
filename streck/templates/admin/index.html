@@ -1,0 +1,13 @@
+{% extends "admin/layout.html" %}
+{% block title %}Administration{% endblock %}
+{% block body %}
+	{{ super() }}
+	<ul class="minimenu">
+		<li><a href="/admin/user">Användare</a></li>
+		<li><a href="/admin/product">Produkter</a></li>
+		<li><a href="/">Avsluta</a></li>
+	</ul>
+	<ul class="minimenu">
+		<li><a href="/admin/export">Exportera streckskulder</a></li>
+	</ul>
+{% endblock %}

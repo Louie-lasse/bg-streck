@@ -1,0 +1,14 @@
+{% extends "admin/layout.html" %}
+{% block title %}Lägg till användare{% endblock %}
+{% block body %}
+	{{ super() }}
+	<ul class="minimenu">
+		<li><a href="/admin/user">Bakåt</a></li>
+	</ul>
+	<form action="/admin/user/add" method="post" class="userform">
+		<p><label>Streckkod: <input type="text" name="barcode" required></label></p>
+		<p><label>Namn: <input type="text" name="name" required></label></p>
+		<p><label>Bild: <input type="file" name="picture"></label></p>
+		<p><button type="submit">Lägg till användare</button></p>
+	</form>
+{% endblock %}
